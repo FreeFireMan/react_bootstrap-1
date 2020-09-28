@@ -8,13 +8,15 @@ export default function AuthForm() {
     const [show, setShow] = useState(false);
     const [isLoginState, setIsLoginState] = useState(true)
 
+    const [isAuth, setIsAuth] = useState(false)
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const descriptionText = isLoginState ? 'Need an account?' : 'Have an account?'
-    const apiUrl = isLoginState ? '/token/' : '/signup'
+    const apiUrl = isLoginState ? '/token' : '/signup'
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 

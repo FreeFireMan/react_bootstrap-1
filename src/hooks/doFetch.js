@@ -1,17 +1,45 @@
+import {useEffect, useState} from "react";
+
 const HttpMethod = async (method, url, body) => {
-    const baseUrl = 'http://127.0.0.1:8000'
+    const [baseMethod, setBaseMethod] = useState('GET')
+    const [baseUrl, setBaseUrl] = useState('http://127.0.0.1:8000')
+    const [isLoading, setIsLoading] = useState(false)
+    const [isError, setIsError] = useState(false)
+    const [data, setData] = useState([])
+
     const options = {
-        method: method,
+        method: baseMethod,
         mode: 'cors',
         headers: {
             'Content-Type': 'application/json'
         }
     }
-    if (body) {
-        options.body = JSON.stringify(body)
-    }
-    const response = await fetch(baseUrl + url, options);
-    return await response.json();
+    setBaseMethod(method)
+    setBaseUrl(baseUrl + url)
+    options.body = JSON.stringify(body)
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsError(false);
+            setIsLoading(true);
+
+            try {
+                fetch(baseUrl, options)
+                    .then(res => {
+                            setData(res.data);
+                            setIsLoading(false)
+                        }
+                    )
+
+            } catch (error) {
+                setIsError(true);
+            }
+        }
+        fetchData();
+    }, [baseUrl, options])
+
+    return ({isLoading, isError, data})
 }
 
 export default HttpMethod;
