@@ -23,14 +23,14 @@ const HttpMethod = (method, url, body) => {
     useEffect(() => {
         axios(baseUrl, options)
             .then(res => {
-                setIsError(false)
+                setData(res.data)
                 setIsLoading(true)
             })
             .catch(err => {
                 setIsError(err.message);
                 setIsLoading(false)
             })
-    }, [])
+    }, [baseUrl, options])
 
     return ({isLoading, isError, data})
 }

@@ -7,9 +7,8 @@ import HttpMethod from "../../hooks/doFetch";
 export default function AuthForm() {
     const [show, setShow] = useState(false);
     const [isLoginState, setIsLoginState] = useState(true)
-
-    const [isAuth, setIsAuth] = useState(false)
-
+    // const [isAuth, setIsAuth] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -38,7 +37,10 @@ export default function AuthForm() {
 
         const response = HttpMethod('POST', apiUrl, user)
         // const response = await httpMethod('GET', 'https://jsonplaceholder.typicode.com/posts',)
+        setIsLoading(response.isLoading)
         console.log(response)
+
+
 
 
         if (isLoginState) {
@@ -132,6 +134,7 @@ export default function AuthForm() {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
+                    {isLoading && <p>Loading...</p>}
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
