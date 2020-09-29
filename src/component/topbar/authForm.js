@@ -6,7 +6,7 @@ import HttpMethod from "../../hooks/doFetch";
 
 export default function AuthForm() {
     const [show, setShow] = useState(false);
-    const [isLoginState, setIsLoginState] = useState(true)
+    const [isLoginState, setIsLoginState] = useState(false)
     // const [isAuth, setIsAuth] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [username, setUsername] = useState('');
@@ -15,7 +15,7 @@ export default function AuthForm() {
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const descriptionText = isLoginState ? 'Need an account?' : 'Have an account?'
-    const apiUrl = isLoginState ? '/token' : '/signup'
+    const apiUrl = isLoginState ? '/signup' : '/token'
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -36,7 +36,6 @@ export default function AuthForm() {
             };
 
         const response = HttpMethod('POST', apiUrl, user)
-        // const response = await httpMethod('GET', 'https://jsonplaceholder.typicode.com/posts',)
         setIsLoading(response.isLoading)
         console.log(response)
 
@@ -58,7 +57,7 @@ export default function AuthForm() {
     return (
         <>
             <Button variant="outline-secondary" onClick={handleShow}>
-                {isLoginState ? 'Sign In' : 'Sign Up'}
+                {!isLoginState ? 'Sign In' : 'Sign Up'}
             </Button>
 
             <Modal
@@ -68,7 +67,7 @@ export default function AuthForm() {
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>{isLoginState ? 'Sign In' : 'Sign Up'}{' '}
+                    <Modal.Title>{!isLoginState ? 'Sign In' : 'Sign Up'}{' '}
                         <Button variant="link"
                                 onClick={() => setIsLoginState(!isLoginState)}>
                             {descriptionText}
@@ -94,7 +93,7 @@ export default function AuthForm() {
                             />
                         </Form.Group>
                         {
-                            !isLoginState &&
+                            isLoginState &&
                             <Form.Group controlId="formBasicPasswordConfirm">
                                 <Form.Label>Подтверждение пароля</Form.Label>
                                 <Form.Control type="password"
@@ -110,7 +109,7 @@ export default function AuthForm() {
                             </Form.Group>
                         }
                         {
-                            !isLoginState &&
+                            isLoginState &&
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control type="email"
@@ -121,7 +120,7 @@ export default function AuthForm() {
                             </Form.Group>
                         }
                         {
-                            !isLoginState &&
+                            isLoginState &&
                             <Form.Group controlId="formBasicPhone">
                                 <Form.Label>Номер Телефона</Form.Label>
                                 <Form.Control type="phone"
