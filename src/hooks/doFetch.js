@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState} from "react"
 
 const HttpMethod = async (method, url, body) => {
     const [baseMethod, setBaseMethod] = useState('GET')
@@ -21,25 +21,26 @@ const HttpMethod = async (method, url, body) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            setIsError(false);
-            setIsLoading(true);
+            setIsError(false)
+            setIsLoading(true)
 
             try {
                 fetch(baseUrl, options)
+                    .then(res => res.json())
                     .then(res => {
-                            setData(res.data);
+                            setData(res.data)
                             setIsLoading(false)
                         }
                     )
 
             } catch (error) {
-                setIsError(true);
+                setIsError(true)
             }
         }
-        fetchData();
+        fetchData()
     }, [baseUrl, options])
 
     return ({isLoading, isError, data})
 }
 
-export default HttpMethod;
+export default HttpMethod
