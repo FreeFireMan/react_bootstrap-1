@@ -20,7 +20,7 @@ export default function AuthForm() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
         const user = isLoginState ?
             {
@@ -36,10 +36,9 @@ export default function AuthForm() {
                 }
             };
 
-        const response = await HttpMethod('POST', apiUrl, user)
+        const response = HttpMethod('POST', apiUrl, user)
         // const response = await httpMethod('GET', 'https://jsonplaceholder.typicode.com/posts',)
-        console.log(response);
-
+        console.log(response)
 
 
         if (isLoginState) {

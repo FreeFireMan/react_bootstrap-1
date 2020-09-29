@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react"
 
-const HttpMethod = async (method, url, body) => {
+function HttpMethod (method, url, body) {
     const [baseMethod, setBaseMethod] = useState('GET')
     const [baseUrl, setBaseUrl] = useState('http://127.0.0.1:8000')
     const [isLoading, setIsLoading] = useState(false)
