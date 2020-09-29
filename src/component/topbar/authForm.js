@@ -2,13 +2,13 @@ import React, {useState} from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import HttpMethod from "../../hooks/doFetch";
+import useFetch from "../../hooks/useFetch";
 
 export default function AuthForm() {
     const [show, setShow] = useState(false);
     const [isLoginState, setIsLoginState] = useState(false)
     // const [isAuth, setIsAuth] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
+    // const [isLoading, setIsLoading] = useState(false)
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -16,30 +16,32 @@ export default function AuthForm() {
     const [phone, setPhone] = useState('');
     const descriptionText = isLoginState ? 'Need an account?' : 'Have an account?'
     const apiUrl = isLoginState ? '/signup' : '/token'
+    const [{isLoading, response, error}, doFetch] = useFetch(apiUrl)
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const user = isLoginState ?
+        {
+            "username": username,
+            "password": password
+        } :
+        {
+            "username": username,
+            "password": password,
+            "email": email,
+            "profile": {
+                "phone": phone
+            }
+        };
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        const user = isLoginState ?
-            {
-                "username": username,
-                "password": password
-            } :
-            {
-                "username": username,
-                "password": password,
-                "email": email,
-                "profile": {
-                    "phone": phone
-                }
-            };
-
-        const response = HttpMethod('POST', apiUrl, user)
-        setIsLoading(response.isLoading)
-        console.log(response)
 
 
+        doFetch({
+            method: 'POST',
+            user: user
+        })
 
 
         if (isLoginState) {
@@ -53,6 +55,8 @@ export default function AuthForm() {
             setPhone('')
         }
     }
+
+    console.log('response',response)
 
     return (
         <>
