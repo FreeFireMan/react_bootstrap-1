@@ -20,7 +20,7 @@ const HttpMethod = async (method, url, body) => {
 
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = () => {
             setIsError(false)
             setIsLoading(true)
 
